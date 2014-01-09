@@ -17,6 +17,7 @@
 	<div class="row">
 			<div class="col-md-8">
 				<h3>Hello {{userName}} {{> logout}}</h3>
+				<h3><span class="label label-default"> Points: {{points}} </span></h3>
 				{{> currentQ}}
 				{{> input}}
 				{{> answers}}
@@ -34,7 +35,7 @@
 
 
 <template name="logout">
-	<button id="logout" class="btn pull-right"> Logout </button>
+	<button id="logout" class="btn pull-right"> Logout </button> 
 </template>
 
 <template name="answers">
@@ -47,7 +48,16 @@
 		<tr id="{{_id}}">
 			<td >{{text}}</td>
 			<td>{{time}}</td>
-		</tr>
+			<td> {{#if active}}
+				<span class="label label-warning"> Pending... </span>
+				{{else}}
+					{{#if wrong}}
+						<span class="label label-default"> Wrong </span>
+					{{else}}
+						<span class="label label-success"> Correct </span>
+					{{/if}}
+				{{/if}}
+		</tr>				
 		{{/each}}
 		</tbody>
 		</table>

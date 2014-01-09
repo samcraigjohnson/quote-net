@@ -1,6 +1,7 @@
 
 Meteor.subscribe("questions");
 Meteor.subscribe("answers");
+Meteor.subscribe("userData");
 
 Template.currentQ.currentQuestion = function(){
 		var cq = Questions.findOne({active:true});
@@ -15,6 +16,9 @@ Template.mainpage.userName = function(){
 	return name;
 }
 
+Template.mainpage.points = function(){
+	return Meteor.user().points;
+}
 
 Template.logout.events = {
 	'click button#logout' : function(event){
@@ -22,10 +26,14 @@ Template.logout.events = {
 	}
 }
 
-
 Template.answers.answers = function(){
-	var docs = Answers.find({});
-	return docs;
+	var docs = Answers.find({}, {sort: {time:-1}, limit: 5});
+	var qs = []
+	docs.forEach(function(doc){
+		doc.time = moment(doc.time).format('MMMM Do YYYY, h:mm:ss a');
+		qs.push(doc);
+	});
+	return qs;
 }
 
 Template.input.events = {
@@ -34,7 +42,7 @@ Template.input.events = {
 			var answer = document.getElementById('answerInput');
 			if(answer.value != ""){
 				Meteor.call("add_answer", answer.value, function(err, a_id){
-					console.log(a_id);
+					console.log("Answer added: " + a_id);
 				});
 
 				document.getElementById('answerInput').value = '';

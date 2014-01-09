@@ -11,11 +11,12 @@ Meteor.methods({
 		});
 		return question_id;
 	},
-	add_answer: function(anwser){
-		var ans_id = Questions.insert({
+	add_answer: function(answer){
+		var ans_id = Answers.insert({
 			text: answer, 
 			owner: this.userId,
-			time: Date.now()
+			time: Date.now(),
+			active: true
 		});
 		return ans_id;
 	},
@@ -31,4 +32,9 @@ Meteor.publish("questions", function(){
 
 Meteor.publish("answers", function(){
 	return Answers.find({owner: this.userId});
+});
+
+Meteor.publish("userData", function(){
+	return Meteor.users.find({_id: this.userId},
+        	{fields: {points: 1}});
 });
