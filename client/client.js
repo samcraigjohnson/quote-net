@@ -4,10 +4,12 @@ Meteor.subscribe("answers");
 Meteor.subscribe("userData");
 
 Template.currentQ.currentQuestion = function(){
-		var cq = Questions.findOne({active:true});
+		var game = Games.findOne({active:true});
+    var question = Questions.findOne({_id: game.question});
+    console.log(question);
 		var display_q = {}
-		display_q.time = moment(cq.time).format('MMMM Do YYYY, h:mm:ss a');
-		display_q.text = cq.text;
+		display_q.time = moment(question.time).format('MMMM Do YYYY, h:mm:ss a');
+		display_q.text = question.text;
 		return display_q;
 }
 

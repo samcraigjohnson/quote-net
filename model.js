@@ -9,7 +9,10 @@ Games = new Meteor.Collection('games');
 
 //+==================TEST DATA=======================+
 
-
+/*
+Questions.remove({});
+Answers.remove({});
+Games.remove({});*/
 //Meteor.users.remove({});
 //Meteor.users.update({username: "charles"}, {$set: {quoteMaster:true}});
 /**

@@ -3,19 +3,30 @@
 */
 
 Meteor.methods({
-	add_question: function(question){
+	ask_question: function(question){
 		var question_id = Questions.insert({
 			text: question, 
-			active: true, 
+			active: true,
+      owner: this.userId, 
 			time: Date.now()
 		});
-		return question_id;
+
+    var game_id = Games.insert({
+      question: question_id,
+      hints: [],
+      active: true,
+      master: this.userId,
+      time: Date.now()
+    });
+
+		return game_id;
 	},
 	add_answer: function(answer){
 		var ans_id = Answers.insert({
 			text: answer, 
 			owner: this.userId,
 			time: Date.now(),
+      game: Games.findOne({active: true}),
 			active: true
 		});
 		return ans_id;
@@ -37,4 +48,8 @@ Meteor.publish("answers", function(){
 Meteor.publish("userData", function(){
 	return Meteor.users.find({_id: this.userId},
         	{fields: {points: 1, quoteMaster: 1}});
+});
+
+Meteor.publish("activeGame", function(){
+	return Games.find({active: true});
 });
