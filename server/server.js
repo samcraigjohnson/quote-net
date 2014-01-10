@@ -36,5 +36,5 @@ Meteor.publish("answers", function(){
 
 Meteor.publish("userData", function(){
 	return Meteor.users.find({_id: this.userId},
-        	{fields: {points: 1}});
+        	{fields: {points: 1, quoteMaster: 1}});
 });

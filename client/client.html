@@ -1,5 +1,5 @@
 <head>
-	<title>Question Master</title>
+	<title>QuoteNet</title>
 </head>
 
 <body>
@@ -16,13 +16,22 @@
 <template name="mainpage">
 	<div class="row">
 			<div class="col-md-8">
-				<h3>Hello {{userName}} {{> logout}}</h3>
-				<h3><span class="label label-default"> Points: {{points}} </span></h3>
-				{{> currentQ}}
-				{{> input}}
-				{{> answers}}
+				{{#if currentUser.quoteMaster}}
+					{{> quoteMasterPage}}
+				{{else}}
+					<h3>Hello {{userName}} {{> logout}}</h3>
+					<h3><span class="label label-default"> Points: {{points}} </span></h3>
+					{{> currentQ}}
+					{{> input}}
+					{{> answers}}
+				{{/if}}
 			</div>
 	</div>
+</template>
+
+<template name="quoteMasterPage">
+	<h3> Welcome Quote Master {{currentUser.profile.name}}!</h3>
+	
 </template>
 
 <template name="currentQ">

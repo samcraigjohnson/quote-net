@@ -4,10 +4,14 @@
 
 Questions = new Meteor.Collection('questions');
 Answers = new Meteor.Collection('answers');
-Masters = new Meteor.Collection('masters');
+Games = new Meteor.Collection('games');
+
+
+//+==================TEST DATA=======================+
+
 
 //Meteor.users.remove({});
-//Meteor.users.update({username: "sam"}, {$set: {points:0}});
+//Meteor.users.update({username: "charles"}, {$set: {quoteMaster:true}});
 /**
 var id = Accounts.createUser({
       username: "charles",
