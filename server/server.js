@@ -14,6 +14,7 @@ Meteor.methods({
     var game_id = Games.insert({
       question: question_id,
       hints: [],
+      answers: [],
       active: true,
       master: this.userId,
       time: Date.now()
@@ -26,9 +27,11 @@ Meteor.methods({
 			text: answer, 
 			owner: this.userId,
 			time: Date.now(),
-      game: Games.findOne({active: true}),
 			active: true
 		});
+
+		Games.update({active: true}, {$push: {answers: ans_id}});
+		console.log("added question: " + answer + ": " + ans_id);
 		return ans_id;
 	},
 	inactive: function(q_id){
@@ -42,7 +45,7 @@ Meteor.publish("questions", function(){
 });
 
 Meteor.publish("answers", function(){
-	return Answers.find({owner: this.userId});
+	return Answers.find({active: true});
 });
 
 Meteor.publish("userData", function(){

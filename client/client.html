@@ -34,6 +34,7 @@
 	
 	{{#if activeGame}}
 		{{> currentQ}}
+		{{> incomingAnswers}}
 	{{else}}
 		{{> askQuestion}}
 	{{/if}}
@@ -44,6 +45,25 @@
 	<div class="row col-md-8">
 		<label for="questionInput">Start a new round:</label>
 		<input id="questionInput" class="form-control" type="text" placeholder="Ask a question!">
+	</div>
+</template>
+
+<template name="incomingAnswers">
+	<div class="row">
+	<div id="activeAnswers" class="col-md-10 col-md-offset-1">
+		<h5>Incoming Answers: </h5>
+		<table class="table table-striped">
+		<tbody>
+		{{#each inAnswers}}
+		<tr>
+			</td>{{owner}}</td>
+			</td>{{text}}</td>
+			</td>{{time}}</td>
+		</tr>
+		{{/each}}
+		</tbody>
+		</table>
+	</div>
 	</div>
 </template>
 

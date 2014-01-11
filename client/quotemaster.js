@@ -1,6 +1,5 @@
-Meteor.subscribe("userData");
-Meteor.subscribe("activeGame");
 
+//Start game, ask question
 Template.askQuestion.events = {
   'keydown input#questionInput' : function(event){
   	if(event.which == 13){
@@ -18,6 +17,19 @@ Template.askQuestion.events = {
         }
     }
   }
+}
+
+//Update incoming questions
+Template.incomingAnswers.inAnswers = function(){
+  
+  var ans = Games.findOne({}).answers;
+  var results = [];
+  
+  for(var i = 0; i < ans.length; i++){
+    results.push(Answers.findOne({_id: ans[i]}));
+  }
+  console.log(results);
+  return results;
 }
 
 Template.quoteMasterPage.activeGame = function(){

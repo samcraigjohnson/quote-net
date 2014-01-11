@@ -2,15 +2,15 @@
 Meteor.subscribe("questions");
 Meteor.subscribe("answers");
 Meteor.subscribe("userData");
+Meteor.subscribe("activeGame");
 
 Template.currentQ.currentQuestion = function(){
-		var game = Games.findOne({active:true});
+	var game = Games.findOne({active:true});
     var question = Questions.findOne({_id: game.question});
-    console.log(question);
-		var display_q = {}
-		display_q.time = moment(question.time).format('MMMM Do YYYY, h:mm:ss a');
-		display_q.text = question.text;
-		return display_q;
+	var display_q = {}
+	display_q.time = moment(question.time).format('MMMM Do YYYY, h:mm:ss a');
+	display_q.text = question.text;
+	return display_q;
 }
 
 Template.mainpage.userName = function(){
@@ -29,12 +29,13 @@ Template.logout.events = {
 }
 
 Template.answers.answers = function(){
-	var docs = Answers.find({}, {sort: {time:-1}, limit: 5});
+	var docs = Answers.find({owner: Meteor.userId()}, {sort: {time:-1}, limit: 5});
 	var qs = []
 	docs.forEach(function(doc){
 		doc.time = moment(doc.time).format('MMMM Do YYYY, h:mm:ss a');
 		qs.push(doc);
 	});
+	console.log(qs);
 	return qs;
 }
 
