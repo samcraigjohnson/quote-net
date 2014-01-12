@@ -6,10 +6,16 @@ Meteor.subscribe("activeGame");
 
 Template.currentQ.currentQuestion = function(){
 	var game = Games.findOne({active:true});
-    var question = Questions.findOne({_id: game.question});
 	var display_q = {}
-	display_q.time = moment(question.time).format('MMMM Do YYYY, h:mm:ss a');
-	display_q.text = question.text;
+	if (game){
+	    var question = Questions.findOne({_id: game.question});
+		display_q.time = moment(question.time).format('MMMM Do YYYY, h:mm:ss a');
+		display_q.text = question.text;
+	} 
+	else{
+		display_q.text = "No Current Question";
+		display_q.time = Date.now();
+	}
 	return display_q;
 }
 
@@ -29,7 +35,7 @@ Template.logout.events = {
 }
 
 Template.answers.answers = function(){
-	var docs = Answers.find({owner: Meteor.userId()}, {sort: {time:-1}, limit: 5});
+	var docs = Answers.find({owner: Meteor.user().username}, {sort: {time:-1}, limit: 5});
 	var qs = []
 	docs.forEach(function(doc){
 		doc.time = moment(doc.time).format('MMMM Do YYYY, h:mm:ss a');

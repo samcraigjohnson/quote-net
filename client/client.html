@@ -55,10 +55,13 @@
 		<table class="table table-striped">
 		<tbody>
 		{{#each inAnswers}}
-		<tr>
-			</td>{{owner}}</td>
-			</td>{{text}}</td>
-			</td>{{time}}</td>
+		<tr id="{{_id}}">
+			<td class="table-text">From: {{owner}}</td>
+			<td class="table-text"><b>{{text}}</b></td>
+			<td class="table-text">{{time}}</td>
+			<td><button class="btn btn-danger">Wrong</button>
+				<button class="btn btn-success">Correct</button>
+			</td>
 		</tr>
 		{{/each}}
 		</tbody>

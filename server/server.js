@@ -7,31 +7,32 @@ Meteor.methods({
 		var question_id = Questions.insert({
 			text: question, 
 			active: true,
-      owner: this.userId, 
+      		owner: Meteor.user().username, 
 			time: Date.now()
 		});
 
-    var game_id = Games.insert({
-      question: question_id,
-      hints: [],
-      answers: [],
-      active: true,
-      master: this.userId,
-      time: Date.now()
-    });
+	    var game_id = Games.insert({
+	      question: question_id,
+	      hints: [],
+	      answers: [],
+	      active: true,
+	      master: Meteor.user().username,
+	      time: Date.now()
+	    });
 
 		return game_id;
 	},
 	add_answer: function(answer){
 		var ans_id = Answers.insert({
 			text: answer, 
-			owner: this.userId,
+			owner: Meteor.user().username,
+			game: Games.findOne({active: true})._id,
 			time: Date.now(),
 			active: true
 		});
 
 		Games.update({active: true}, {$push: {answers: ans_id}});
-		console.log("added question: " + answer + ": " + ans_id);
+		console.log(Meteor.user().username + "added question: " + answer + ": " + ans_id);
 		return ans_id;
 	},
 	inactive: function(q_id){

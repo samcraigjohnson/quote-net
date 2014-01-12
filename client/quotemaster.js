@@ -21,14 +21,13 @@ Template.askQuestion.events = {
 
 //Update incoming questions
 Template.incomingAnswers.inAnswers = function(){
-  
-  var ans = Games.findOne({}).answers;
+  var curr_game = Games.findOne({});
+  var ans = Answers.find({game: curr_game._id});
   var results = [];
-  
-  for(var i = 0; i < ans.length; i++){
-    results.push(Answers.findOne({_id: ans[i]}));
-  }
-  console.log(results);
+  ans.forEach(function(doc){
+    doc.time = moment(doc.time).format('MMMM Do YYYY, h:mm:ss a');
+    results.push(doc);
+  });
   return results;
 }
 
