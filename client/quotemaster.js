@@ -19,10 +19,33 @@ Template.askQuestion.events = {
   }
 }
 
+Template.incomingAnswers.events = {
+  //wrong answer
+  'click button.btn-danger' : function(event){
+    var ans_id = $(event.target).closest("tr").attr('id');
+    Meteor.call("wrong_answer", ans_id);
+  },
+  //right answer
+  'click button.btn-success' : function(event){
+    var ans_id = $(event.target).closest("tr").attr('id');
+    Meteor.call('correct_answer', ans_id);
+  }
+}
+
 //Update incoming questions
 Template.incomingAnswers.inAnswers = function(){
   var curr_game = Games.findOne({});
-  var ans = Answers.find({game: curr_game._id});
+  var ans = Answers.find({game: curr_game._id, active: true});
+  var results = [];
+  ans.forEach(function(doc){
+    doc.time = moment(doc.time).format('MMMM Do YYYY, h:mm:ss a');
+    results.push(doc);
+  });
+  return results;
+}
+Template.incomingAnswers.rejectAnswers = function(){
+  var curr_game = Games.findOne({});
+  var ans = Answers.find({game: curr_game._id, active: false});
   var results = [];
   ans.forEach(function(doc){
     doc.time = moment(doc.time).format('MMMM Do YYYY, h:mm:ss a');

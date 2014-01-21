@@ -13,18 +13,19 @@ Games = new Meteor.Collection('games');
 Questions.remove({});
 Answers.remove({});
 Games.remove({});
-//Meteor.users.remove({});
-//Meteor.users.update({username: "charles"}, {$set: {quoteMaster:true}});
-/**
+//Meteor.users.remove({});*/
+//Meteor.users.update({username: "anne"}, {$set: {points: 0}});
+/*
 var id = Accounts.createUser({
-      username: "charles",
-      email: "charles@hello.com",
+      username: "anne",
+      email: "anne@hello.com",
       password: "johnson",
       points: 0,
-      profile: { name: "Charles" }
+      quoteMaster: false,
+      profile: { name: "Anne" }
     });
 
-console.log(id);
-**/
+console.log(id);*/
+
 
 //Meteor.loginWithPassword("sam", "johnson");

@@ -20,7 +20,7 @@
 					{{> quoteMasterPage}}
 				{{else}}
 					<h3>Hello {{userName}} {{> logout}}</h3>
-					<h3><span class="label label-default"> Points: {{points}} </span></h3>
+					<h3><span class="label label-default"> Points: {{currentUser.points}} </span></h3>
 					{{> currentQ}}
 					{{> input}}
 					{{> answers}}
@@ -51,7 +51,7 @@
 <template name="incomingAnswers">
 	<div class="row">
 	<div id="activeAnswers" class="col-md-10 col-md-offset-1">
-		<h5>Incoming Answers: </h5>
+		<h3>Incoming Answers: </h3>
 		<table class="table table-striped">
 		<tbody>
 		{{#each inAnswers}}
@@ -66,6 +66,22 @@
 		{{/each}}
 		</tbody>
 		</table>
+		
+		<h3>Rejected Answers: </h3>
+		<table class="table table-striped">
+		<tbody>
+		{{#each rejectAnswers}}
+		<tr id="{{_id}}">
+			<td class="table-text">From: {{owner}}</td>
+			<td class="table-text"><b>{{text}}</b></td>
+			<td class="table-text">{{time}}</td>
+			<td><button class="btn btn-success">Mark Correct</button>
+			</td>
+		</tr>
+		{{/each}}
+		</tbody>
+		</table>
+	
 	</div>
 	</div>
 </template>

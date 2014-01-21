@@ -24,10 +24,6 @@ Template.mainpage.userName = function(){
 	return name;
 }
 
-Template.mainpage.points = function(){
-	return Meteor.user().points;
-}
-
 Template.logout.events = {
 	'click button#logout' : function(event){
 		Meteor.logout();		

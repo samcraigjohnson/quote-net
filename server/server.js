@@ -26,7 +26,7 @@ Meteor.methods({
 		var ans_id = Answers.insert({
 			text: answer, 
 			owner: Meteor.user().username,
-			game: Games.findOne({active: true})._id,
+			game: curr_game_id(),
 			time: Date.now(),
 			active: true
 		});
@@ -38,6 +38,19 @@ Meteor.methods({
 	inactive: function(q_id){
 		Questions.update({_id: q_id}, {$set: {active: false}});
 	},
+	wrong_answer: function(ans_id){
+		Answers.update({_id: ans_id}, {$set: {wrong: true, active:false}});
+	},
+	correct_answer: function(ans_id){
+		//end game, give point
+		Answers.update({_id: ans_id}, {$set: {wrong: false, active:false}});
+		var ans = Answers.findOne({_id: ans_id});
+		Meteor.users.update({username: ans.owner}, {$inc: {points: 1}});
+
+		Games.update({}, {$set: {active: false}}, {multi: true});
+		Questions.update({}, {$set: {active: false}}, {multi: true});
+		Answers.update({}, {$set: {active: false}}, {multi: true});
+	},
 });
 
 
@@ -46,7 +59,7 @@ Meteor.publish("questions", function(){
 });
 
 Meteor.publish("answers", function(){
-	return Answers.find({active: true});
+	return Answers.find({game: curr_game_id()});
 });
 
 Meteor.publish("userData", function(){
