@@ -5,3 +5,7 @@
 .table-text{
 	padding-top: 13px !important;
 }
+
+.border-right{
+	border-right: 1px solid black;
+}

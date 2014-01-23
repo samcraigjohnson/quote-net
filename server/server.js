@@ -4,6 +4,7 @@
 
 Meteor.methods({
 	ask_question: function(question){
+		//start game
 		var question_id = Questions.insert({
 			text: question, 
 			active: true,
@@ -32,7 +33,6 @@ Meteor.methods({
 		});
 
 		Games.update({active: true}, {$push: {answers: ans_id}});
-		console.log(Meteor.user().username + "added question: " + answer + ": " + ans_id);
 		return ans_id;
 	},
 	inactive: function(q_id){
@@ -59,7 +59,7 @@ Meteor.publish("questions", function(){
 });
 
 Meteor.publish("answers", function(){
-	return Answers.find({game: curr_game_id()});
+	return Answers.find({});
 });
 
 Meteor.publish("userData", function(){

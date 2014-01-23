@@ -4,7 +4,14 @@ curr_game_id = function(){
 		return Games.findOne({active: true})._id 
 	}
 	else {
-		console.log("no active games");
-		return null;
+		return '';
 	}
 }
+
+Accounts.onCreateUser(function (options, user){
+	user.points = 0;
+
+	if(options.profile)
+		user.profile = options.profile;
+	return user;
+})

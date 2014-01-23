@@ -19,7 +19,7 @@
 				{{#if currentUser.quoteMaster}}
 					{{> quoteMasterPage}}
 				{{else}}
-					<h3>Hello {{userName}} {{> logout}}</h3>
+					<h3>Hello {{currentUser.username}} {{> logout}}</h3>
 					<h3><span class="label label-default"> Points: {{currentUser.points}} </span></h3>
 					{{> currentQ}}
 					{{> input}}
@@ -30,7 +30,7 @@
 </template>
 
 <template name="quoteMasterPage">
-	<h3> Welcome, Quote Master {{currentUser.profile.name}}! {{> logout}} </h3> 
+	<h3> Welcome, Quote Master {{currentUser.username}}! {{> logout}} </h3> 
 	
 	{{#if activeGame}}
 		{{> currentQ}}
@@ -131,16 +131,33 @@
 </template>
 
 <template name="login">
+<h1> Welcome to QUOTENET </h1>
+
+
+<div class="col-md-6 border-right">
 <h3>Login:</h3>
-<div class="col-md-6">
+	<span id="login-unsuc" class="label label-danger hidden"> Wrong username/password </span>
 	<form role="form">
 	  <div class="form-group">
-	    <input type="email" class="form-control" id="usernameInput" placeholder="Enter username">
+	    <input type="email" class="form-control" id="usernameInput" placeholder="Username">
 	  </div>
 	  <div class="form-group">
 	    <input type="password" class="form-control" id="passwordInput" placeholder="Password">
 	  </div>
-	  <button id="submit" type="submit" class="btn btn-default">Submit</button>
+	  <button id="submit" type="submit" class="btn btn-primary">Submit!</button>
+	 </form>
+ </div>
+
+ <div class="col-md-6">
+<h3>Create Account:</h3>
+	<form role="form">
+	  <div class="form-group">
+	    <input type="email" class="form-control" id="usernameInputCreate" placeholder="Username">
+	  </div>
+	  <div class="form-group">
+	    <input type="password" class="form-control" id="passwordInputCreate" placeholder="Password">
+	  </div>
+	  <button id="submitCreate" type="submit" class="btn btn-primary">Create!</button>
 	 </form>
  </div>
 </template>

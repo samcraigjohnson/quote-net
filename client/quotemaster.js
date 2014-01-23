@@ -3,17 +3,15 @@
 Template.askQuestion.events = {
   'keydown input#questionInput' : function(event){
   	if(event.which == 13){
+        event.preventDefault();
   			var question = document.getElementById('questionInput');
 
         if(question.value != ""){
           Meteor.call("ask_question", question.value, function(err, id){
-            console.log(err);
           });
 
           document.getElementById('questionInput').value = '';
           question.value = ''; 
-
-          console.log(Questions.find({})[0].text);
         }
     }
   }
