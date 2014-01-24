@@ -1,10 +1,4 @@
 
-Meteor.subscribe("questions");
-Meteor.subscribe("answers");
-Meteor.subscribe("userData");
-Meteor.subscribe("activeGame");
-
-
 Template.currentQ.currentQuestion = function(){
 	var game = Games.findOne({});
 	var display_q = {}
