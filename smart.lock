@@ -3,7 +3,8 @@
   "dependencies": {
     "basePackages": {
       "bootstrap-3": {},
-      "moment": {}
+      "moment": {},
+      "twilio-meteor": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -13,8 +14,13 @@
       },
       "moment": {
         "git": "https://github.com/acreeger/meteor-moment.git",
-        "tag": "v2.2.1",
-        "commit": "9ee12e714afe56b189f53076447b7b54f3012065"
+        "tag": "v2.5.1",
+        "commit": "8c9bc5d3fc96705057737cb9743d555417f6e551"
+      },
+      "twilio-meteor": {
+        "git": "https://github.com/andreioprisan/twilio-meteor.git",
+        "tag": "v1.1.0",
+        "commit": "7f36ec52fc334caf8b740320524df62afce890e1"
       }
     }
   }

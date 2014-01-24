@@ -13,3 +13,5 @@ underscore
 accounts-password
 jquery
 accounts-ui
+http
+twilio-meteor
