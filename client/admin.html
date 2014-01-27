@@ -1,0 +1,33 @@
+
+<template name="admin">
+<head>
+	<title>QuoteNet - Admin</title>
+</head>
+<body>
+	{{#if currentUser.isAdmin}}
+		{{> quoteUsers}}
+	{{else}}
+		<h1> you do not have access to this page :( </h1>
+	{{/if}}
+
+	
+</body>
+</template>
+
+<template name="quoteUsers">
+	<h1> Change Quote Master </h1>
+	<table class="table table-striped">
+		<tbody>
+		{{#each users}}
+		<tr id="{{_id}}">
+			<td>{{username}}</td>
+			{{#if quoteMaster}}
+				<td><span class="label label-primary">QuoteMaster</span></td>
+			{{else}}
+				<td><button class="btn btn-warning">Make Quote Master</button></td>
+			{{/if}}
+		</tr>
+		{{/each}}
+		</tbody>
+	</table>
+</template>

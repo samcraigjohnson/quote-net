@@ -59,4 +59,9 @@ Meteor.methods({
 		Questions.update({}, {$set: {active: false}}, {multi: true});
 		Answers.update({}, {$set: {active: false}}, {multi: true});
 	},
+
+	//make a user quote master
+	make_quotemaster : function(user_id){
+		change_quote_master(user_id);
+	},
 });

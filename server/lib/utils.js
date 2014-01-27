@@ -8,9 +8,16 @@ curr_game_id = function(){
 	}
 }
 
+change_quote_master = function(userId){
+	var users  = Meteor.users.find({});
+	Meteor.users.update({}, {$set: { quoteMaster: false}}, {multi: true});
+	console.log("cleared quotemaster: " + users.count());
+	Meteor.users.update({_id: userId}, {$set: { quoteMaster: true}});
+}
+
 Accounts.onCreateUser(function (options, user){
 	user.points = 0;
-
+	user.isAdmin = false;
 	if(options.profile)
 		user.profile = options.profile;
 	return user;
