@@ -6,30 +6,23 @@ Template.currentQ.currentQuestion = function(){
 	    var question = Questions.findOne({_id: game.question});
 		display_q.time = moment(question.time).format('MMMM Do YYYY, h:mm:ss a');
 		display_q.text = question.text;
-		Session.set("currentQuestion", true);
 	} 
 	else{
 		display_q.text = "No Current Question";
 		display_q.time = Date.now();
-		Session.set("currentQuestion", false);
 	}
 	return display_q;
 }
 
-$(document).ready(function (){
-	if(Session.get("currentQuestion")){
-		document.getElementById("answerInput").disabled = false;
+Template.mainpage.currQuestion = function(){
+	if(Questions.findOne({active: true})){
+		return true;
 	}
 	else{
-		document.getElementById("answerInput").disabled = true;
+		return false;
 	}
-
-})
-
-Template.mainpage.userName = function(){
-	var name = Meteor.user().profile.name;
-	return name;
 }
+
 
 Template.logout.events = {
 	'click button#logout' : function(event){
@@ -49,6 +42,17 @@ Template.answers.answers = function(){
 		});
 	}
 	return qs;
+}
+
+Template.input.rendered = function() {
+	Deps.autorun(function(){
+		if (Meteor.user().numGuesses == 0){
+			$("#answerInput").css('display', 'none');
+		}
+		else{
+			$("#answerInput").css('display', 'inherit');
+		}
+	});
 }
 
 Template.input.events = {

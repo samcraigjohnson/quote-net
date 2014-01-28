@@ -23,9 +23,14 @@
 				{{else}}
 					<h3>Hello {{currentUser.username}} {{> logout}}</h3>
 					<h3><span class="label label-default"> Points: {{currentUser.points}} </span></h3>
-					{{> currentQ}}
-					{{> input}}
-					{{> answers}}
+					{{#if currQuestion}}
+						{{> currentQ}}
+						{{> hints}}					
+						{{> input}}
+						{{> answers}}
+					{{else}}
+						<h4> No current game :( </h4>
+					{{/if}}
 				{{/if}}
 			</div>
 	</div>
@@ -36,6 +41,8 @@
 	
 	{{#if activeGame}}
 		{{> currentQ}}
+		{{> hints}}
+		{{> hint}}
 		{{> incomingAnswers}}
 	{{else}}
 		{{> askQuestion}}
@@ -48,6 +55,26 @@
 		<label for="questionInput">Start a new round:</label>
 		<input id="questionInput" class="form-control" type="text" placeholder="Ask a question!">
 	</div>
+</template>
+
+<template name="hints">
+	{{#if hasHints}}
+	<div class="row">
+	<div class="col-md-8">
+		<h4>Hints:</h4>
+		<ul>
+		{{#each hints}}
+			<li>{{text}}</li>
+		{{/each}}
+		</ul>
+	</div>
+	</div>
+	{{/if}}
+</template>
+
+<template name="hint">
+	<button id= "hintBtn" class="btn btn-primary pull-left">Give a hint!</button>
+	<input id="hintInput" class="form-control gone" type="text" placeholder="Give a hint!">
 </template>
 
 <template name="incomingAnswers">
@@ -136,34 +163,34 @@
 </template>
 
 <template name="login">
-<h1> Welcome to QUOTENET </h1>
+	<h1> Welcome to QUOTENET </h1>
 
 
-<div class="col-md-6 border-right">
-<h3>Login:</h3>
-	<span id="login-unsuc" class="label label-danger hidden"> Wrong username/password </span>
-	<form role="form">
-	  <div class="form-group">
-	    <input type="email" class="form-control" id="usernameInput" placeholder="Username">
-	  </div>
-	  <div class="form-group">
-	    <input type="password" class="form-control" id="passwordInput" placeholder="Password">
-	  </div>
-	  <button id="submit" type="submit" class="btn btn-primary">Submit!</button>
-	 </form>
- </div>
+	<div class="col-md-6 border-right">
+	<h3>Login:</h3>
+		<span id="login-unsuc" class="label label-danger hidden"> Wrong username/password </span>
+		<form role="form">
+		  <div class="form-group">
+		    <input type="email" class="form-control" id="usernameInput" placeholder="Username">
+		  </div>
+		  <div class="form-group">
+		    <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+		  </div>
+		  <button id="submit" type="submit" class="btn btn-primary">Submit!</button>
+		 </form>
+	 </div>
 
- <div class="col-md-6">
-<h3>Create Account:</h3>
-	<form role="form">
-	  <div class="form-group">
-	    <input type="email" class="form-control" id="usernameInputCreate" placeholder="Username">
-	  </div>
-	  <div class="form-group">
-	    <input type="password" class="form-control" id="passwordInputCreate" placeholder="Password">
-	  </div>
-	  <button id="submitCreate" type="submit" class="btn btn-primary">Create!</button>
-	 </form>
- </div>
+	 <div class="col-md-6">
+	<h3>Create Account:</h3>
+		<form role="form">
+		  <div class="form-group">
+		    <input type="email" class="form-control" id="usernameInputCreate" placeholder="Username">
+		  </div>
+		  <div class="form-group">
+		    <input type="password" class="form-control" id="passwordInputCreate" placeholder="Password">
+		  </div>
+		  <button id="submitCreate" type="submit" class="btn btn-primary">Create!</button>
+		 </form>
+	 </div>
 </template>
 

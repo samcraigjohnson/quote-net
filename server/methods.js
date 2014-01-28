@@ -20,7 +20,7 @@ Meteor.methods({
 	      master: Meteor.user().username,
 	      time: Date.now()
 	    });
-
+	    Meteor.users.update({}, {$set: {numGuesses: 1}}, {multi: true});
 		return game_id;
 	},
 
@@ -35,6 +35,7 @@ Meteor.methods({
 		});
 
 		Games.update({active: true}, {$push: {answers: ans_id}});
+		Meteor.users.update({_id: this.userId}, {$inc: {numGuesses: -1}});
 		return ans_id;
 	},
 
@@ -63,5 +64,10 @@ Meteor.methods({
 	//make a user quote master
 	make_quotemaster : function(user_id){
 		change_quote_master(user_id);
+	},
+	
+	give_hint : function(hint){
+		Games.update({_id: curr_game_id()}, {$push: {hints: {text: hint}}});
+		Meteor.users.update({}, {$inc: {numGuesses: 1}}, {multi: true});
 	},
 });

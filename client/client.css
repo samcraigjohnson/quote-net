@@ -9,3 +9,11 @@
 .border-right{
 	border-right: 1px solid black;
 }
+
+.gone {
+	display: none;
+}
+
+#hintInput{
+	margin-top: 10px;
+}

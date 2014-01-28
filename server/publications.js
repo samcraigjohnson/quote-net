@@ -16,7 +16,7 @@ Meteor.publish("userData", function(){
         	{fields: {username: 1, points: 1, quoteMaster: 1, isAdmin: 1}});
 	else
 		return Meteor.users.find({_id: this.userId},
-        	{fields: {points: 1, quoteMaster: 1, isAdmin: 1}});
+        	{fields: {points: 1, quoteMaster: 1, isAdmin: 1, numGuesses: 1}});
 });
 
 Meteor.publish("activeGame", function(){

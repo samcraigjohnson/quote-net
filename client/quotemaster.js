@@ -30,6 +30,43 @@ Template.incomingAnswers.events = {
   }
 }
 
+Template.hints.hasHints = function (){
+  var game = Games.findOne({});
+  if(game && game.hasOwnProperty('hints')){
+    if(game.hints.length > 0){
+      return true;
+    }
+
+  }
+  return false;
+}
+
+Template.hints.hints = function(){
+  return Games.findOne({}).hints;
+}
+
+
+Template.hint.events = {
+  'click button.btn-primary' : function(event){
+    $("#hintInput").show();
+    $(event.target).hide();
+    $("#hintInput").focus();
+  },
+
+  'keydown input#hintInput' : function(event){
+    if(event.which == 13){
+      event.preventDefault();
+      if (event.target.value != ""){
+          Meteor.call("give_hint", event.target.value, function(err, id){});
+          event.target.value = "";
+          $("#hintInput").hide();
+          $('#hintBtn').show();
+      }
+    }
+  }
+
+}
+
 //Update incoming questions
 Template.incomingAnswers.inAnswers = function(){
   var curr_game = Games.findOne({});
