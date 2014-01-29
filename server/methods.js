@@ -36,6 +36,7 @@ Meteor.methods({
 
 		Games.update({active: true}, {$push: {answers: ans_id}});
 		Meteor.users.update({_id: this.userId}, {$inc: {numGuesses: -1}});
+		
 		return ans_id;
 	},
 
@@ -47,6 +48,13 @@ Meteor.methods({
 	//mark answer wrong and inactive
 	wrong_answer: function(ans_id){
 		Answers.update({_id: ans_id}, {$set: {wrong: true, active:false}});
+		var ans = Answers.findOne({_id: ans_id});
+		Activity.insert({
+			user: ans.owner,
+			action: " incorrectly guessed ",
+			body: ans.text,
+			time: Date.now() 
+		});
 	},
 
 	//mark question correct and end game, giving player a point
@@ -59,15 +67,28 @@ Meteor.methods({
 		Games.update({}, {$set: {active: false}}, {multi: true});
 		Questions.update({}, {$set: {active: false}}, {multi: true});
 		Answers.update({}, {$set: {active: false}}, {multi: true});
+
+		Activity.insert({
+			user: ans.owner,
+			action: " correctly guessed ",
+			body: ans.text,
+			time: Date.now() 
+		});
 	},
+	give_hint : function(hint){
+		Games.update({_id: curr_game_id()}, {$push: {hints: {text: hint}}});
+		Meteor.users.update({}, {$inc: {numGuesses: 1}}, {multi: true});
+	},
+
+	//!!!!-----ADMIN FUNCTIONS--------!!!!!!
 
 	//make a user quote master
 	make_quotemaster : function(user_id){
 		change_quote_master(user_id);
 	},
-	
-	give_hint : function(hint){
-		Games.update({_id: curr_game_id()}, {$push: {hints: {text: hint}}});
-		Meteor.users.update({}, {$inc: {numGuesses: 1}}, {multi: true});
+	//delete a user
+	delete_user : function(user_id){
+		Meteor.users.remove({_id: user_id});
 	},
+	
 });

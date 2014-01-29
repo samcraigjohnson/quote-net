@@ -5,6 +5,7 @@
 </head>
 
 <body>
+	{{> nav}}
 	<div class="container">
 		{{#if currentUser}}
 			{{> mainpage}}
@@ -17,11 +18,11 @@
 
 <template name="mainpage">
 	<div class="row">
-			<div class="col-md-10">
+			<div class="col-md-9">
+				{{> heading}}
 				{{#if currentUser.quoteMaster}}
 					{{> quoteMasterPage}}
 				{{else}}
-					<h3>Hello {{currentUser.username}} {{> logout}}</h3>
 					<h3><span class="label label-default"> Points: {{currentUser.points}} </span></h3>
 					{{#if currQuestion}}
 						{{> currentQ}}
@@ -29,16 +30,58 @@
 						{{> input}}
 						{{> answers}}
 					{{else}}
-						<h4> No current game :( </h4>
+						{{> leaderboard}}
 					{{/if}}
 				{{/if}}
+			</div> 
+			<div class="col-md-3">
+			{{> activityFeed}}
 			</div>
 	</div>
 </template>
 
+<template name="leaderboard">
+	<div class="row">
+	<h3> No Current Game, Leaderboard: </h3>
+	{{#each users}}
+		<h4>{{username}} : {{points}}</h4>
+	{{/each}}
+	</div>
+</template>
+
+<template name="activityFeed">
+	<h3> Activity Feed: </h3>
+	<ul>
+		{{#each activites}}
+			<li> {{user}} <b>{{action}}</b> {{body}}</li>
+		{{/each}}
+	</ul>
+</template>
+
+<template name="nav">
+	<div id="nav-wrapper">
+		<nav class="navbar navbar-default" role="navigation">
+		  <div class="navbar-header pull-right">
+		    {{>logout}}
+		  </div>
+		  <div class="navbar-header pull-left">
+		    	<a class="navbar-brand" href="/">QUOTENOTE</a>
+		  </div>
+		</nav>
+	</div>
+</template>
+
+<template name="heading">
+	<div class="row">
+		{{#if currentUser.quoteMaster}}
+			<h3> Welcome, Quote Master {{currentUser.username}}!</h3> 
+		{{else}}
+			<h3>Hello {{currentUser.username}}</h3>
+		{{/if}}
+	</div>
+</template>
+
 <template name="quoteMasterPage">
-	<h3> Welcome, Quote Master {{currentUser.username}}! {{> logout}} </h3> 
-	
 	{{#if activeGame}}
 		{{> currentQ}}
 		{{> hints}}
@@ -46,14 +89,16 @@
 		{{> incomingAnswers}}
 	{{else}}
 		{{> askQuestion}}
+		{{> leaderboard}}
 	{{/if}}
-
 </template>
 
 <template name="askQuestion">
-	<div class="row col-md-8">
+	<div class="row">
+		<div class="col-md-8">
 		<label for="questionInput">Start a new round:</label>
 		<input id="questionInput" class="form-control" type="text" placeholder="Ask a question!">
+		</div>
 	</div>
 </template>
 
@@ -125,9 +170,9 @@
 
 
 <template name="logout">
-	<button id="logout" class="btn pull-right"> Logout </button> 
+	<button id="logout" class="btn"> Logout </button> 
 	{{#if currentUser.isAdmin}}
-		<a href="/admin" class="btn btn-primary pull-right">Admin</a>
+		<a href="/admin" class="btn btn-primary">Admin</a>
 	{{/if}}
 </template>
 
@@ -159,7 +204,11 @@
 </template>
 
 <template name="input">
-	<input id="answerInput" class="form-control" type="text" placeholder="Answer current question">
+	{{#if canAnswer}}
+		<input id="answerInput" class="form-control" type="text" placeholder="Answer current question">
+	{{else}}
+		<h6> you have no more guesses </h6>
+	{{/if}}
 </template>
 
 <template name="login">

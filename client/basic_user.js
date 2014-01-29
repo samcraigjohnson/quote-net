@@ -44,15 +44,13 @@ Template.answers.answers = function(){
 	return qs;
 }
 
-Template.input.rendered = function() {
-	Deps.autorun(function(){
-		if (Meteor.user().numGuesses == 0){
-			$("#answerInput").css('display', 'none');
-		}
-		else{
-			$("#answerInput").css('display', 'inherit');
-		}
-	});
+Template.input.canAnswer = function(){
+	if (Meteor.user() && Meteor.user().numGuesses == 0){
+		return false;
+	}
+	else{
+		return true;
+	}
 }
 
 Template.input.events = {
@@ -69,6 +67,19 @@ Template.input.events = {
 			}
 		}
 	}
+}
+
+Template.activityFeed.activites = function(){
+	return Activity.find({}, {sort: {time:-1}, limit: 25});
+}
+
+Template.leaderboard.users = function(){
+	var users = [];
+	Meteor.users.find({}, {sort: {points: -1}}).forEach(function(user){
+		if(!user.quoteMaster)
+			users.push(user);
+	});
+	return users;
 }
 
 //LOGIN STUFF --------------------

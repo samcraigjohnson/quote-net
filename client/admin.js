@@ -11,7 +11,15 @@ Template.quoteUsers.events = {
 				console.log(err);
 			}
 		});
-	}
+	},
 
+	'click button.btn-danger' : function(event){
+		var user_id = $(event.target).closest("tr").attr('id');
+		Meteor.call("delete_user", user_id, function(err, id){
+			if(err){
+				console.log(err);
+			}
+		});
+	}
 
 }
