@@ -1,6 +1,6 @@
 
 Template.currentQ.currentQuestion = function(){
-	var game = Games.findOne({});
+	var game = current_game();
 	var display_q = {}
 	if (game){
 	    var question = Questions.findOne({_id: game.question});
@@ -31,7 +31,7 @@ Template.logout.events = {
 }
 
 Template.answers.answers = function(){
-	var game = Games.findOne({});
+	var game = current_game();
 	var qs = [];
 
 	if(game){
@@ -69,18 +69,29 @@ Template.input.events = {
 	}
 }
 
-Template.activityFeed.activites = function(){
-	return Activity.find({}, {sort: {time:-1}, limit: 25});
+
+
+Template.chat.messages = function(){
+	return Messages.find({}, {sort: {time:-1}, limit:20});
 }
 
-Template.leaderboard.users = function(){
-	var users = [];
-	Meteor.users.find({}, {sort: {points: -1}}).forEach(function(user){
-		if(!user.quoteMaster)
-			users.push(user);
-	});
-	return users;
+Template.chat.events = {
+'keydown input#chatInput' : function(event){
+		if(event.which == 13){
+			var message = document.getElementById('chatInput');
+			if(message.value != ""){
+				Meteor.call("send_message", message.value, function(err, id){
+					if(err){console.log(err);}
+				});
+
+				document.getElementById('chatInput').value = '';
+				message.value = '';
+			}
+		}
+	}
 }
+
+
 
 //LOGIN STUFF --------------------
 function loginEvent(event){

@@ -1,7 +1,15 @@
 curr_game_id = function(){
 	if (Games.find({active: true}).count() > 0){
-		console.log(Games.find({active: true}).count()+ " active games");
 		return Games.findOne({active: true})._id 
+	}
+	else {
+		return '';
+	}
+}
+
+last_game_id = function(){
+	if (Games.find({lastGame: true}).count() > 0){
+		return Games.findOne({lastGame: true})._id 
 	}
 	else {
 		return '';
@@ -11,6 +19,7 @@ curr_game_id = function(){
 change_quote_master = function(userId){
 	var users  = Meteor.users.find({});
 	Meteor.users.update({}, {$set: { quoteMaster: false, points: 0}}, {multi: true});
+	Activity.remove({});
 	console.log("cleared quotemaster: " + users.count());
 	Meteor.users.update({_id: userId}, {$set: { quoteMaster: true}});
 }

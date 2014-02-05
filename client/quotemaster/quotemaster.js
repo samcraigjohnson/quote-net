@@ -31,7 +31,7 @@ Template.incomingAnswers.events = {
 }
 
 Template.hints.hasHints = function (){
-  var game = Games.findOne({});
+  var game = current_game();
   if(game && game.hasOwnProperty('hints')){
     if(game.hints.length > 0){
       return true;
@@ -42,9 +42,16 @@ Template.hints.hasHints = function (){
 }
 
 Template.hints.hints = function(){
-  return Games.findOne({}).hints;
+  return current_game().hints;
 }
 
+Template.endGame.events = {
+  'click button.btn-danger' : function(event){
+    Meteor.call("end_game", function(err){
+      if(err){console.log(err);}
+    })
+  }
+}
 
 Template.hint.events = {
   'click button.btn-primary' : function(event){
@@ -69,7 +76,7 @@ Template.hint.events = {
 
 //Update incoming questions
 Template.incomingAnswers.inAnswers = function(){
-  var curr_game = Games.findOne({});
+  var curr_game = current_game();
   var ans = Answers.find({game: curr_game._id, active: true});
   var results = [];
   ans.forEach(function(doc){
@@ -79,8 +86,8 @@ Template.incomingAnswers.inAnswers = function(){
   return results;
 }
 Template.incomingAnswers.rejectAnswers = function(){
-  var curr_game = Games.findOne({});
-  var ans = Answers.find({game: curr_game._id, active: false});
+  var curr_game = current_game();;
+  var ans = Answers.find({game: curr_game._id, active: false}, {sort:{time:-1}});
   var results = [];
   ans.forEach(function(doc){
     doc.time = moment(doc.time).format('MMMM Do YYYY, h:mm:ss a');
@@ -90,6 +97,6 @@ Template.incomingAnswers.rejectAnswers = function(){
 }
 
 Template.quoteMasterPage.activeGame = function(){
-  var active = Games.find({}).count() > 0;
+  var active = Games.find({active:true}).count() > 0;
   return active;
 }

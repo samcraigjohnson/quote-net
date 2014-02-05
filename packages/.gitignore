@@ -2,3 +2,5 @@
 /moment
 /twilio-meteor
 /iron-router
+/server-deps
+/reactive-publish

@@ -16,3 +16,5 @@ accounts-ui
 http
 twilio-meteor
 iron-router
+server-deps
+reactive-publish

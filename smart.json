@@ -3,6 +3,8 @@
     "bootstrap-3": {},
     "moment": {},
     "twilio-meteor": {},
-    "iron-router": {}
+    "iron-router": {},
+    "server-deps": {},
+    "reactive-publish": {}
   }
 }

@@ -1,7 +1,9 @@
 <template name = "home">
 
 <head>
+
 	<title>QuoteNet</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -31,41 +33,37 @@
 						{{> answers}}
 					{{else}}
 						{{> leaderboard}}
+						{{> activityFeed}}
 					{{/if}}
 				{{/if}}
 			</div> 
 			<div class="col-md-3">
-			{{> activityFeed}}
+			{{> chat}}
 			</div>
 	</div>
 </template>
 
-<template name="leaderboard">
-	<div class="row">
-	<h3> No Current Game, Leaderboard: </h3>
-	{{#each users}}
-		<h4>{{username}} : {{points}}</h4>
+<template name="chat">
+	<h3>Chat:</h3>
+	<input type="text" class="form-control" id="chatInput">
+	<div class="word-wrap">
+	{{#each messages}}
+			<h5><b>{{user}}</b>: {{message}} </h5>
 	{{/each}}
 	</div>
-</template>
-
-<template name="activityFeed">
-	<h3> Activity Feed: </h3>
-	<ul>
-		{{#each activites}}
-			<li> {{user}} <b>{{action}}</b> {{body}}</li>
-		{{/each}}
-	</ul>
 </template>
 
 <template name="nav">
 	<div id="nav-wrapper">
 		<nav class="navbar navbar-default" role="navigation">
 		  <div class="navbar-header pull-right">
+		  {{#if currentUser}}
 		    {{>logout}}
+
+		  {{/if}}
 		  </div>
 		  <div class="navbar-header pull-left">
-		    	<a class="navbar-brand" href="/">QUOTENOTE</a>
+		    	<a class="navbar-brand" href="/">QUOTENET</a>
 		  </div>
 		</nav>
 	</div>
@@ -78,27 +76,6 @@
 		{{else}}
 			<h3>Hello {{currentUser.username}}</h3>
 		{{/if}}
-	</div>
-</template>
-
-<template name="quoteMasterPage">
-	{{#if activeGame}}
-		{{> currentQ}}
-		{{> hints}}
-		{{> hint}}
-		{{> incomingAnswers}}
-	{{else}}
-		{{> askQuestion}}
-		{{> leaderboard}}
-	{{/if}}
-</template>
-
-<template name="askQuestion">
-	<div class="row">
-		<div class="col-md-8">
-		<label for="questionInput">Start a new round:</label>
-		<input id="questionInput" class="form-control" type="text" placeholder="Ask a question!">
-		</div>
 	</div>
 </template>
 
@@ -117,59 +94,17 @@
 	{{/if}}
 </template>
 
-<template name="hint">
-	<button id= "hintBtn" class="btn btn-primary pull-left">Give a hint!</button>
-	<input id="hintInput" class="form-control gone" type="text" placeholder="Give a hint!">
-</template>
-
-<template name="incomingAnswers">
-	<div class="row">
-	<div id="activeAnswers" class="col-md-10 col-md-offset-1">
-		<h3>Incoming Answers: </h3>
-		<table class="table table-striped">
-		<tbody>
-		{{#each inAnswers}}
-		<tr id="{{_id}}">
-			<td class="table-text">From: {{owner}}</td>
-			<td class="table-text"><b>{{text}}</b></td>
-			<td class="table-text">{{time}}</td>
-			<td><button class="btn btn-danger">Wrong</button>
-				<button class="btn btn-success">Correct</button>
-			</td>
-		</tr>
-		{{/each}}
-		</tbody>
-		</table>
-		
-		<h3>Rejected Answers: </h3>
-		<table class="table table-striped">
-		<tbody>
-		{{#each rejectAnswers}}
-		<tr id="{{_id}}">
-			<td class="table-text">From: {{owner}}</td>
-			<td class="table-text"><b>{{text}}</b></td>
-			<td class="table-text">{{time}}</td>
-			<td><button class="btn btn-success">Mark Correct</button>
-			</td>
-		</tr>
-		{{/each}}
-		</tbody>
-		</table>
-	
-	</div>
-	</div>
-</template>
-
 <template name="currentQ">
 	<h3><span class="label label-info"> Current Question: </span></h3>
 	<div class="jumbotron">
-	  </p>"{{currentQuestion.text}}"</p>
+	  <p>"{{currentQuestion.text}}"</p>
 	  <small class="pull-right">{{currentQuestion.time}}</small>
 	</div>
 </template>
 
 
 <template name="logout">
+	<a href="/leaderboard" id="lboard" class="btn btn-primary"> Stats </a> 
 	<button id="logout" class="btn"> Logout </button> 
 	{{#if currentUser.isAdmin}}
 		<a href="/admin" class="btn btn-primary">Admin</a>
@@ -207,15 +142,14 @@
 	{{#if canAnswer}}
 		<input id="answerInput" class="form-control" type="text" placeholder="Answer current question">
 	{{else}}
-		<h6> you have no more guesses </h6>
 	{{/if}}
 </template>
 
 <template name="login">
+	<div class="row">
 	<h1> Welcome to QUOTENET </h1>
 
-
-	<div class="col-md-6 border-right">
+	<div class="col-sm-12 col-md-6 border-right">
 	<h3>Login:</h3>
 		<span id="login-unsuc" class="label label-danger hidden"> Wrong username/password </span>
 		<form role="form">
@@ -229,7 +163,7 @@
 		 </form>
 	 </div>
 
-	 <div class="col-md-6">
+	 <div class="col-sm-12 col-md-6">
 	<h3>Create Account:</h3>
 		<form role="form">
 		  <div class="form-group">
@@ -240,6 +174,7 @@
 		  </div>
 		  <button id="submitCreate" type="submit" class="btn btn-primary">Create!</button>
 		 </form>
+	 </div>
 	 </div>
 </template>
 

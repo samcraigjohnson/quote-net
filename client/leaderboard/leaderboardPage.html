@@ -1,0 +1,42 @@
+<template name="leaderBoardPage">
+<head>
+
+	<title>QuoteNet</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+{{> nav}}
+<div class="container">
+	{{>leaderboard}}
+	{{>activityFeed}}
+</div>
+</body>
+
+</template>
+
+<template name="leaderboard">
+	<div class="row">
+	<div class="col-md-12">
+	<h3> Leaderboard: </h3>
+	{{#each users}}
+		<h4>{{username}} : {{points}}</h4>
+	{{/each}}
+	</div>
+	</div>
+</template>
+
+<template name="activityFeed">
+	<div class="row">
+	<div class="col-md-12">
+	<h3> Last Game: </h3>
+	<h4> Question: {{question}} </h4>
+	<h4> Answer: <b>{{answer}} </h4>
+	<ul>
+		{{#each activites}}
+			<li> {{user}} <b>{{action}}</b> {{body}}</li>
+		{{/each}}
+	</ul>
+	</div>
+	</div>
+</template>

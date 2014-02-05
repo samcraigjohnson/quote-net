@@ -1,21 +1,22 @@
 
 <template name="admin">
 <head>
+
 	<title>QuoteNet - Admin</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
 	{{#if currentUser.isAdmin}}
 		{{> quoteUsers}}
 	{{else}}
 		<h1> you do not have access to this page :( </h1>
 	{{/if}}
-
-	
 </body>
 </template>
 
 <template name="quoteUsers">
-	<h1> Change Quote Master </h1>
+	<h1> Admin </h1>
 	<table class="table table-striped">
 		<tbody>
 		{{#each users}}
@@ -26,7 +27,11 @@
 			{{else}}
 				<td><button class="btn btn-warning">Make Quote Master</button></td>
 			{{/if}}
-				<td><button class="btn btn-danger">DELETE USER</button></td>
+				<td><button class="btn btn-danger delete">DELETE USER</button></td>
+				<td>{{points}} 
+					<button class="btn btn-danger down-one">-</button>
+					<button class="btn btn-success up-one">+</button>
+				</td>
 		</tr>
 		{{/each}}
 		</tbody>

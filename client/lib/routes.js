@@ -10,4 +10,9 @@ Router.map(function() {
 		path: '/admin',
 		template: 'admin'
 	});
+
+	this.route('leaderboard', {
+		path: '/leaderboard',
+		template: 'leaderBoardPage'
+	});
 });
